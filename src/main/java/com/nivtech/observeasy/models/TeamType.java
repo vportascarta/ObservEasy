@@ -1,6 +1,6 @@
 package com.nivtech.observeasy.models;
 
-enum TeamType {
+public enum TeamType {
     ENGAGEMENT,
     TRAVAIL,
     AUTRE

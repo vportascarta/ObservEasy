@@ -1,6 +1,6 @@
 package com.nivtech.observeasy.models;
 
-enum ProgressType {
+public enum ProgressType {
     DEROULEMENT,
     ATTENTE,
     ANIMATION,

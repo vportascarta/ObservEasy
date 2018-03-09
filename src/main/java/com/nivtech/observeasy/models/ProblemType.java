@@ -1,6 +1,6 @@
 package com.nivtech.observeasy.models;
 
-enum ProblemType {
+public enum ProblemType {
     PROBLEME_TECHNIQUE,
     PROBLEME_CONTENU,
     SOLUTION,

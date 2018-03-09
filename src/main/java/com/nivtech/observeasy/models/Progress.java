@@ -3,9 +3,9 @@ package com.nivtech.observeasy.models;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class Progress extends RecordableItem {
-    private static String SQLCreateQuery = "create table if not exists Progress (timestamp integer, type string, step string, note string)";
-    private static String SQLSaveFormat = "insert into Progress values(%d, %s, %s, %s)";
+public class Progress implements RecordableItem {
+    private static String SQLCreateQuery = "create table if not exists progress (timestamp integer, type string, step string, note string)";
+    private static String SQLSaveFormat = "insert into progress values(%d, '%s', '%s', '%s')";
 
     private LocalDateTime timestamp;
     private ProgressType type;
@@ -24,6 +24,10 @@ public class Progress extends RecordableItem {
         this.type = type;
         this.step = step;
         this.note = note;
+    }
+
+    public static String getCreateSQLQuery() {
+        return SQLCreateQuery;
     }
 
     public String getSaveSQLQuery() {

@@ -3,9 +3,9 @@ package com.nivtech.observeasy.models;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class Problem extends RecordableItem {
-    private static String SQLCreateQuery = "create table if not exists Problem (timestamp integer, type string, note string)";
-    private static String SQLSaveFormat = "insert into Problem values(%d, %s, %s)";
+public class Problem implements RecordableItem {
+    private static String SQLCreateQuery = "create table if not exists problem (timestamp integer, type string, note string)";
+    private static String SQLSaveFormat = "insert into problem values(%d, '%s', '%s')";
 
     private LocalDateTime timestamp;
     private ProblemType type;
@@ -21,6 +21,10 @@ public class Problem extends RecordableItem {
         this.timestamp = LocalDateTime.now();
         this.type = type;
         this.note = note;
+    }
+
+    public static String getCreateSQLQuery() {
+        return SQLCreateQuery;
     }
 
     @Override
