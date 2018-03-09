@@ -1,18 +1,12 @@
 package com.nivtech.observeasy.models;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
-enum ProgressType {
-    DEROULEMENT,
-    ATTENTE,
-    ANIMATION,
-    EXPLICATIONS,
-    DIRECTIVES,
-    AUTRE
-}
+public class Progress extends RecordableItem {
+    private static String SQLCreateQuery = "create table if not exists Progress (timestamp integer, type string, step string, note string)";
+    private static String SQLSaveFormat = "insert into Progress values(%d, %s, %s, %s)";
 
-public class Progress implements Recordable {
     private LocalDateTime timestamp;
     private ProgressType type;
     private String step;
@@ -25,7 +19,14 @@ public class Progress implements Recordable {
         note = "";
     }
 
-    public void saveToDatabase(Connection c) {
+    public Progress(ProgressType type, String step, String note) {
+        this.timestamp = LocalDateTime.now();
+        this.type = type;
+        this.step = step;
+        this.note = note;
+    }
 
+    public String getSaveSQLQuery() {
+        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, step, note);
     }
 }
