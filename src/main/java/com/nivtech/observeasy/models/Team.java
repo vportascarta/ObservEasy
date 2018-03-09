@@ -1,15 +1,12 @@
 package com.nivtech.observeasy.models;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
-enum TeamType {
-    ENGAGEMENT,
-    TRAVAIL,
-    AUTRE
-}
+public class Team extends RecordableItem {
+    private static String SQLCreateQuery = "create table if not exists Team (timestamp integer, type string, id_team integer,note string)";
+    private static String SQLSaveFormat = "insert into Team values(%d, %s, %d, %s)";
 
-public class Team implements Recordable {
     private LocalDateTime timestamp;
     private TeamType type;
     private Integer id_team;
@@ -22,7 +19,14 @@ public class Team implements Recordable {
         note = "";
     }
 
-    public void saveToDatabase(Connection c) {
+    public Team(TeamType type, Integer id, String note) {
+        this.timestamp = LocalDateTime.now();
+        this.type = type;
+        this.id_team = id;
+        this.note = note;
+    }
 
+    public String getSaveSQLQuery() {
+        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, id_team, note);
     }
 }

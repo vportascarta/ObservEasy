@@ -1,16 +1,12 @@
 package com.nivtech.observeasy.models;
 
-import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
-enum ProblemType {
-    PROBLEME_TECHNIQUE,
-    PROBLEME_CONTENU,
-    SOLUTION,
-    AUTRE
-}
+public class Problem extends RecordableItem {
+    private static String SQLCreateQuery = "create table if not exists Problem (timestamp integer, type string, note string)";
+    private static String SQLSaveFormat = "insert into Problem values(%d, %s, %s)";
 
-public class Problem implements Recordable {
     private LocalDateTime timestamp;
     private ProblemType type;
     private String note;
@@ -21,8 +17,14 @@ public class Problem implements Recordable {
         note = "";
     }
 
-    @Override
-    public void saveToDatabase(Connection c) {
+    public Problem(ProblemType type, String note) {
+        this.timestamp = LocalDateTime.now();
+        this.type = type;
+        this.note = note;
+    }
 
+    @Override
+    public String getSaveSQLQuery() {
+        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, note);
     }
 }
