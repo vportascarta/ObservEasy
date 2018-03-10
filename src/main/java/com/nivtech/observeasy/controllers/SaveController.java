@@ -38,7 +38,19 @@ public class SaveController implements ActionListener {
 
         try {
             db.saveData(item);
-            window.getStatus().setMessage("Observation enregistrée " + tab_id);
+
+            switch (tab_id) {
+                case 0:
+                    window.getStatus().setMessage("Observation déroulement enregistrée");
+                    break;
+                case 1:
+                    window.getStatus().setMessage("Observation équipe enregistrée");
+                    break;
+                case 2:
+                    window.getStatus().setMessage("Observation problème enregistrée");
+                    break;
+            }
+
 
         } catch (SQLException | NullPointerException e1) {
             window.getStatus().setMessage("Erreur lors de l'enregistrement !");

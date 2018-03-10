@@ -33,7 +33,6 @@ public class SQLiteLinker {
     public void saveData(RecordableItem item) throws SQLException, NullPointerException {
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(5);  // set timeout to 5 sec.
-        System.err.println(item.getSaveSQLQuery());
         statement.executeUpdate(item.getSaveSQLQuery());
     }
 

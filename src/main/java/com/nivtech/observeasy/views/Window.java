@@ -2,6 +2,7 @@ package com.nivtech.observeasy.views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Window extends JFrame {
 
@@ -14,11 +15,19 @@ public class Window extends JFrame {
 
     public Window() {
         super();
+        this.setTitle("ObservEasy");
+        this.setSize(600, 600);
+        this.setLayout(new BorderLayout());
+        this.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getClassLoader().getResource("icon.png"))).getImage());
+
+
         menu = new Menu();
         tabs = new TabbedPanes();
         status = new StatusBar(this.getWidth());
         saveButton = new JButton("Sauvegarder");
         eraseButton = new JButton("Effacer");
+
+        this.init();
     }
 
     public Menu getMenu() {
@@ -42,31 +51,18 @@ public class Window extends JFrame {
     }
 
     public void init() {
-        this.setTitle("ObservEasy");
-        this.setSize(600, 600);
-        this.setLayout(new BorderLayout());
-
         this.setJMenuBar(menu);
 
         JPanel elem = new JPanel();
-        elem.setLayout(new GridBagLayout());
+        elem.setLayout(new BorderLayout());
+        elem.add(tabs, BorderLayout.CENTER);
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 2;
-        elem.add(tabs, c);
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new GridLayout(1, 2));
+        buttons.add(saveButton);
+        buttons.add(eraseButton);
 
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.weightx = 0.5;
-        elem.add(saveButton, c);
-
-        c.gridx = 1;
-        c.gridy = 1;
-        elem.add(eraseButton, c);
+        elem.add(buttons, BorderLayout.SOUTH);
 
         this.add(elem, BorderLayout.CENTER);
         this.add(status, BorderLayout.SOUTH);

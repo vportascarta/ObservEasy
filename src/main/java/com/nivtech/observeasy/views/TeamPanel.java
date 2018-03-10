@@ -48,11 +48,11 @@ public class TeamPanel extends JComponent {
 
     }
 
-    private JComboBox buildTeamObservList() {
-        String[] observs = Arrays.stream(TeamType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
-        JComboBox observsList = new JComboBox(observs);
+    private JComboBox<String> buildTeamObservList() {
+        String[] observs = Arrays.stream(TeamType.class.getEnumConstants()).map(Enum::name).map(s -> s.replaceAll("_", " ")).toArray(String[]::new);
+        JComboBox<String> observsList = new JComboBox<>(observs);
 
-        observsList.setSelectedIndex(1);
+        observsList.setSelectedIndex(0);
         return observsList;
     }
 
@@ -61,6 +61,6 @@ public class TeamPanel extends JComponent {
     }
 
     public Team getTeam() {
-        return new Team(TeamType.values()[teamTypeBox.getSelectedIndex()], (Integer) teamIdField.getValue(), teamNote.getText());
+        return new Team(TeamType.values()[teamTypeBox.getSelectedIndex()], (Integer) teamIdField.getValue(), teamNote.getText().replaceAll("\n", " "));
     }
 }

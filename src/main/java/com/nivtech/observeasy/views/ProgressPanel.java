@@ -48,10 +48,10 @@ public class ProgressPanel extends JComponent {
     }
 
     private JComboBox<String> buildObservsList() {
-        String[] observs = Arrays.stream(ProgressType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        String[] observs = Arrays.stream(ProgressType.class.getEnumConstants()).map(Enum::name).map(s -> s.replaceAll("_", " ")).toArray(String[]::new);
         JComboBox<String> observsList = new JComboBox<>(observs);
 
-        observsList.setSelectedIndex(1);
+        observsList.setSelectedIndex(0);
         return observsList;
     }
 
@@ -60,6 +60,6 @@ public class ProgressPanel extends JComponent {
     }
 
     public Progress getProgess() {
-        return new Progress(ProgressType.values()[progressTypeBox.getSelectedIndex()], progressStepField.getText(), progressNote.getText());
+        return new Progress(ProgressType.values()[progressTypeBox.getSelectedIndex()], progressStepField.getText(), progressNote.getText().replaceAll("\n", " "));
     }
 }

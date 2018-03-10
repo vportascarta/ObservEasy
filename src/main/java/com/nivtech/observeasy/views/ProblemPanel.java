@@ -41,7 +41,7 @@ public class ProblemPanel extends JComponent {
     }
 
     private JComboBox<String> buildProblemObservList() {
-        String[] observs = Arrays.stream(ProblemType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        String[] observs = Arrays.stream(ProblemType.class.getEnumConstants()).map(Enum::name).map(s -> s.replaceAll("_", " ")).toArray(String[]::new);
         JComboBox<String> observsList = new JComboBox<>(observs);
 
         observsList.setSelectedIndex(0);
@@ -53,6 +53,6 @@ public class ProblemPanel extends JComponent {
     }
 
     public Problem getProblem() {
-        return new Problem(ProblemType.values()[problemTypeBox.getSelectedIndex()], problemNote.getText());
+        return new Problem(ProblemType.values()[problemTypeBox.getSelectedIndex()], problemNote.getText().replaceAll("\n", " "));
     }
 }

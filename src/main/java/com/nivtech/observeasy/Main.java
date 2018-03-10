@@ -1,9 +1,6 @@
 package com.nivtech.observeasy;
 
-import com.nivtech.observeasy.controllers.CSVExportController;
-import com.nivtech.observeasy.controllers.EraseController;
-import com.nivtech.observeasy.controllers.SaveController;
-import com.nivtech.observeasy.controllers.TextExportController;
+import com.nivtech.observeasy.controllers.*;
 import com.nivtech.observeasy.db.SQLiteLinker;
 import com.nivtech.observeasy.views.Window;
 
@@ -12,7 +9,6 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         Window window = new Window();
-        window.init();
 
         SQLiteLinker db = new SQLiteLinker("data.db");
 
@@ -26,9 +22,11 @@ public class Main {
             window.getStatus().setMessage("Connexion échouée. Redémarrer l'application !");
         }
 
+        new WindowController(window, db);
         new CSVExportController(window, db);
         new TextExportController(window, db);
         new SaveController(window, db);
         new EraseController(window, db);
+        new NotificationController(window).startTimer();
     }
 }
