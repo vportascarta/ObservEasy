@@ -1,60 +1,66 @@
 package com.nivtech.observeasy.views;
 
+import com.nivtech.observeasy.models.Team;
+import com.nivtech.observeasy.models.TeamType;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class TeamPanel extends JComponent {
-    private JPanel panelObservs;
-    private JPanel panelTeamNumber;
-    private JPanel panelNotes;
-    private JPanel panelButtons;
+    private JComboBox<String> teamTypeBox;
+    private JSpinner teamIdField;
+    private JTextArea teamNote;
 
-    public TeamPanel () {
+    public TeamPanel() {
         super();
-        panelObservs = new JPanel(new FlowLayout());
-        panelTeamNumber = new JPanel(new FlowLayout());
-        panelNotes = new JPanel(new FlowLayout());
-        panelButtons = new JPanel(new FlowLayout());
+
+        teamTypeBox = this.buildTeamObservList();
+        SpinnerNumberModel numberSpinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
+        teamIdField = new JSpinner(numberSpinnerModel);
+        teamNote = new JTextArea(20, 40);
+
 
         build();
     }
 
-    private void build () {
-
+    private void build() {
 
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        JPanel panelObservs = new JPanel(new FlowLayout());
         panelObservs.setLayout(new FlowLayout());
         panelObservs.add(new JLabel("Type d'observation : "));
-        panelObservs.add(this.buildTeamObservList());
+        panelObservs.add(teamTypeBox);
         this.add(panelObservs);
 
+        JPanel panelTeamNumber = new JPanel(new FlowLayout());
         panelTeamNumber.add(new JLabel("Numéro d'équipe"));
-        SpinnerNumberModel numberSpinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
-        JSpinner teamNumberSpinner = new JSpinner(numberSpinnerModel);
-        panelTeamNumber.add(teamNumberSpinner);
+        panelTeamNumber.add(teamIdField);
         this.add(panelTeamNumber);
 
-
+        JPanel panelNotes = new JPanel(new FlowLayout());
         panelNotes.add(new JLabel("Notes : "));
-        JTextArea textAreaNotes = new JTextArea(20,40);
-        textAreaNotes.setLineWrap(true);
-        textAreaNotes.setWrapStyleWord(true);
-        panelNotes.add(textAreaNotes);
+        teamNote.setLineWrap(true);
+        teamNote.setWrapStyleWord(true);
+        panelNotes.add(teamNote);
         this.add(panelNotes);
 
-        JButton saveButton = new JButton("Sauvegarder");
-        JButton eraseButton = new JButton("Effacer");
-        panelButtons.add(saveButton);
-        panelButtons.add(eraseButton);
-        this.add(panelButtons);
     }
 
     private JComboBox buildTeamObservList() {
-        String[] observs = {"Engagement", "Travail", "Autre"};
+        String[] observs = Arrays.stream(TeamType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         JComboBox observsList = new JComboBox(observs);
 
         observsList.setSelectedIndex(1);
         return observsList;
+    }
+
+    public void eraseFields() {
+        teamNote.setText("");
+    }
+
+    public Team getTeam() {
+        return new Team(TeamType.values()[teamTypeBox.getSelectedIndex()], (Integer) teamIdField.getValue(), teamNote.getText());
     }
 }

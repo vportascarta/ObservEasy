@@ -1,16 +1,34 @@
 package com.nivtech.observeasy;
 
-import com.nivtech.observeasy.views.Menu;
-import com.nivtech.observeasy.views.TabbedPanes;
+import com.nivtech.observeasy.controllers.CSVExportController;
+import com.nivtech.observeasy.controllers.EraseController;
+import com.nivtech.observeasy.controllers.SaveController;
+import com.nivtech.observeasy.controllers.TextExportController;
+import com.nivtech.observeasy.db.SQLiteLinker;
 import com.nivtech.observeasy.views.Window;
 
-public class Main
-{
-    public static void main(String[] args)
-    {
+import java.sql.SQLException;
+
+public class Main {
+    public static void main(String[] args) {
         Window window = new Window();
-        window.setJMenuBar(new Menu());
-        window.add(new TabbedPanes());
-        window.setSize(1000,800);
+        window.init();
+
+        SQLiteLinker db = new SQLiteLinker("data.db");
+
+        window.getStatus().setMessage("Connexion à la base de donnée...");
+        try {
+            db.connect();
+            window.getStatus().setMessage("Connexion établie.");
+            window.getSaveButton().setEnabled(true);
+        } catch (SQLException e) {
+            db.close();
+            window.getStatus().setMessage("Connexion échouée. Redémarrer l'application !");
+        }
+
+        new CSVExportController(window, db);
+        new TextExportController(window, db);
+        new SaveController(window, db);
+        new EraseController(window, db);
     }
 }
