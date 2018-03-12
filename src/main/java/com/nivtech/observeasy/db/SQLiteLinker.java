@@ -46,11 +46,11 @@ public class SQLiteLinker {
         ResultSet rs = statement.executeQuery("SELECT * FROM Progress");
 
         while (rs.next()) {
-            StringBuilder row = new StringBuilder("\"Déroulement\",");
+            StringBuilder row = new StringBuilder("Déroulement;");
             row.append(rs.getLong(1));
-            row.append(",\"").append(rs.getString(2).replaceAll("\"", "\\\"")).append("\"");
-            row.append(",\"").append(rs.getString(3).replaceAll("\"", "\\\"")).append("\"");
-            row.append(",\"").append(rs.getString(4).replaceAll("\"", "\\\"")).append("\"");
+            row.append(";").append(rs.getString(2).replaceAll("\"", "\\\""));
+            row.append(";").append(rs.getString(3).replaceAll("\"", "\\\""));
+            row.append(";").append(rs.getString(4).replaceAll("\"", "\\\""));
 
             csvWriter.println(row);
         }
@@ -59,11 +59,11 @@ public class SQLiteLinker {
         rs = statement.executeQuery("SELECT * FROM Team");
 
         while (rs.next()) {
-            StringBuilder row = new StringBuilder("\"Équipe\",");
+            StringBuilder row = new StringBuilder("Équipe;");
             row.append(rs.getLong(1));
-            row.append(",\"").append(rs.getString(2).replaceAll("\"", "\\\"")).append("\"");
-            row.append(",").append(rs.getInt(3));
-            row.append(",\"").append(rs.getString(4).replaceAll("\"", "\\\"")).append("\"");
+            row.append(";").append(rs.getString(2).replaceAll("\"", "\\\""));
+            row.append(";").append(rs.getInt(3));
+            row.append(";").append(rs.getString(4).replaceAll("\"", "\\\""));
 
             csvWriter.println(row);
         }
@@ -72,11 +72,11 @@ public class SQLiteLinker {
         rs = statement.executeQuery("SELECT * FROM Problem");
 
         while (rs.next()) {
-            StringBuilder row = new StringBuilder("\"Problème\",");
+            StringBuilder row = new StringBuilder("Problème;");
             row.append(rs.getLong(1));
-            row.append(",\"").append(rs.getString(2).replaceAll("\"", "\\\"")).append("\"");
-            row.append(",\"").append("Rien").append("\"");
-            row.append(",\"").append(rs.getString(3).replaceAll("\"", "\\\"")).append("\"");
+            row.append(";").append(rs.getString(2).replaceAll("\"", "\\\""));
+            row.append(";").append("Rien");
+            row.append(";").append(rs.getString(3).replaceAll("\"", "\\\""));
 
             csvWriter.println(row);
         }

@@ -5,7 +5,7 @@ import java.time.ZoneId;
 
 public class Progress implements RecordableItem {
     private static String SQLCreateQuery = "create table if not exists progress (timestamp integer, type string, step string, note string)";
-    private static String SQLSaveFormat = "insert into progress values(%d, '%s', '%s', '%s')";
+    private static String SQLSaveFormat = "insert into progress values(%d, \"%s\", \"%s\", \"%s\")";
 
     private LocalDateTime timestamp;
     private ProgressType type;
@@ -31,6 +31,10 @@ public class Progress implements RecordableItem {
     }
 
     public String getSaveSQLQuery() {
-        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, step, note);
+        return String.format(SQLSaveFormat,
+                timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                type,
+                step.replaceAll("\"", "'"),
+                note.replaceAll("\"", "'"));
     }
 }

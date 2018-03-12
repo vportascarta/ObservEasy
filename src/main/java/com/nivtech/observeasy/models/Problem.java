@@ -5,7 +5,7 @@ import java.time.ZoneId;
 
 public class Problem implements RecordableItem {
     private static String SQLCreateQuery = "create table if not exists problem (timestamp integer, type string, note string)";
-    private static String SQLSaveFormat = "insert into problem values(%d, '%s', '%s')";
+    private static String SQLSaveFormat = "insert into problem values(%d, \"%s\", \"%s\")";
 
     private LocalDateTime timestamp;
     private ProblemType type;
@@ -29,6 +29,9 @@ public class Problem implements RecordableItem {
 
     @Override
     public String getSaveSQLQuery() {
-        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, note);
+        return String.format(SQLSaveFormat,
+                timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                type,
+                note.replaceAll("\"", "'"));
     }
 }

@@ -5,7 +5,7 @@ import java.time.ZoneId;
 
 public class Team implements RecordableItem {
     private static String SQLCreateQuery = "create table if not exists team (timestamp integer, type string, id_team integer, note string)";
-    private static String SQLSaveFormat = "insert into team values(%d, '%s', %d, '%s')";
+    private static String SQLSaveFormat = "insert into team values(%d, \"%s\", %d, \"%s\")";
 
     private LocalDateTime timestamp;
     private TeamType type;
@@ -31,6 +31,10 @@ public class Team implements RecordableItem {
     }
 
     public String getSaveSQLQuery() {
-        return String.format(SQLSaveFormat, timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(), type, id_team, note);
+        return String.format(SQLSaveFormat,
+                timestamp.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli(),
+                type,
+                id_team,
+                note.replaceAll("\"", "'"));
     }
 }
